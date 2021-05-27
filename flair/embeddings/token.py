@@ -119,7 +119,7 @@ class StackedEmbeddings(TokenEmbeddings):
 class WordEmbeddings(TokenEmbeddings):
     """Standard static word embeddings, such as GloVe or FastText."""
 
-    def __init__(self, embeddings: str, field: str = None):
+    def __init__(self, embeddings: str, field: str = None, custom_path):
         """
         Initializes classic word embeddings. Constructor downloads required files if not there.
         :param embeddings: one of: 'glove', 'extvec', 'crawl' or two-letter language code or custom
@@ -152,6 +152,10 @@ class WordEmbeddings(TokenEmbeddings):
         elif embeddings.lower() == "pubmed" or embeddings.lower() == "en-pubmed":
             cached_path(f"{hu_path}/pubmed_pmc_wiki_sg_1M.gensim.vectors.npy", cache_dir=cache_dir)
             embeddings = cached_path(f"{hu_path}/pubmed_pmc_wiki_sg_1M.gensim", cache_dir=cache_dir)
+            
+        # Custom embeddings
+        elif embeddings.lower() == 'custom':
+            embeddings = custom_path
 
         # FT-CRAWL embeddings
         elif embeddings.lower() == "crawl" or embeddings.lower() == "en-crawl":
